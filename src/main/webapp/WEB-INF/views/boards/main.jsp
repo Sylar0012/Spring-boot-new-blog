@@ -7,7 +7,7 @@
 	<div class="d-flex justify-content-end">
 		<div style="width: 300px">
 			<form class="d-flex" method="get" action="/">
-				<input class="form-control me-2" type="text" placeholder="Search">
+				<input class="form-control me-2" type="text" placeholder="Search" name="keyword">
 				<button class="btn btn-primary" type="submit">Search</button>
 			</form>
 		</div>
@@ -24,25 +24,27 @@
 			</tr>
 		</thead>
 		<tbody>
-
-			<tr>
-				<td>1</td>
-				<td><a href="#">제목입니다</a></td>
-				<td>ssar</td>
-			</tr>
-
-
+			<c:forEach var="boards" items="${pagingDto.mainDtos}">
+				<tr>
+					<td>${boards.id }</td>
+					<td><a href="/boards/${boards.id }">${boards.title }</a></td>
+					<td>${boards.username }</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 
 	<div class="d-flex justify-content-center">
 		<ul class="pagination">
-			<li class='page-item disabled'><a class="page-link" href="#">Prev</a></li>
-			<li class='page-item'><a class='page-link' href="#">1</a></li>
-			<li class='page-item'><a class="page-link" href="#">Next</a></li>
+			<li class='page-item ${pagingDto.first ? "disabled" : "" }'><a class="page-link"
+				href="?page=${pagingDto.currentPage-1 }">Prev</a></li>
+			<c:forEach var="num" begin="${pagingDto.startPageNum +1}" end="${pagingDto.lastPageNum}" step="1">
+				<a class="page-link" href='?page=${num-1}&keyword=${pagingDto.keyword}'>${num}</a>
+			</c:forEach>
+			<li class='page-item ${pagingDto.last ? "disabled" : "" }'><a class="page-link"
+				href="?page=${pagingDto.currentPage+1 }">Next</a></li>
 		</ul>
 	</div>
-
 </div>
 
 <%@ include file="../layout/footer.jsp"%>

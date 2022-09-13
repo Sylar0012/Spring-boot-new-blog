@@ -8,9 +8,9 @@
 
 		<div class="d-flex">
 		
-			<a href="#" class="btn btn-warning">수정하러가기</a>
+			<a href="/boards/${boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
 
-			<form>
+			<form method="post" action="/boards/${boards.id}/delete">
 				<button class="btn btn-danger">삭제</button>
 			</form>
 		</div>
@@ -18,11 +18,11 @@
 
 	<br />
 	<div>
-		<h3>제목입니다</h3>
+		<h3>${boards.title }</h3>
 	</div>
 	<hr />
 
-	<div>내용입니다</div>
+	<div>${boards.content }</div>
 
 
 </div>

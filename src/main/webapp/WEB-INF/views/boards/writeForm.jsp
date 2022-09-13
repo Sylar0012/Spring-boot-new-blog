@@ -3,12 +3,12 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-	<form>
+	<form method="post" action="/boards/write">
 		<div class="mb-3 mt-3">
-			<input type="text" class="form-control" placeholder="Enter title">
+			<input type="text" class="form-control" placeholder="Enter title" name="title">
 		</div>
 		<div class="mb-3">
-			<textarea class="form-control" rows="8"></textarea>
+			<textarea class="form-control" rows="8" name="content"></textarea>
 		</div>
 		<button type="submit" class="btn btn-primary">글쓰기완료</button>
 	</form>

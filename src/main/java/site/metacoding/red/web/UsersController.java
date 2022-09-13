@@ -51,7 +51,7 @@ public class UsersController {
 		return Script.href("/");
 	}
 	
-	@GetMapping("/users/{id}")
+	@GetMapping("/users/{id}/updateForm")
 	public String updateForm(@PathVariable Integer id, Model model) {
 		Users usersPS = usersService.회원정보보기(id);
 		model.addAttribute("users",usersPS);

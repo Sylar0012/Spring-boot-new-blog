@@ -3,35 +3,66 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.red.domain.boards.BoardsDao">
-	
+
 	<select id="findByUsername"
 		resultType="site.metacoding.red.domain.users.Users">
 		SELECT * FROM users WHERE username=#{username}
 	</select>
-	
-	<update id ="UserDelete">
+
+	<update id="UserDelete">
 		UPDATE boards SET usersId = null WHERE usersId =#{id}
 	</update>
 
-	
+	<select id="paging" parameterType="map"
+		resultType="site.metacoding.red.web.dto.response.boards.PagingDto">
+		SELECT totalCount,	totalPage,	currentPage,
+		IF(currentPage = 0, 1, 0) first,
+		IF(currentPage = totalPage-1, 1,0) last
+		FROM(
+		select count(*)
+		totalCount, ceil(count(*)/3) totalPage,
+		#{page} currentPage, 0 first, 0 last
+		FROM boards
+		<if test="keyword != null">
+			WHERE title like '%'||#{keyword}||'%'
+		</if>
+		)boards
+	</select>
+
+	<select id="findAll" parameterType="map"
+		resultType="site.metacoding.red.web.dto.response.boards.MainDto">
+		SELECT * FROM boards b
+		INNER JOIN users u ON b.usersId = u.id
+		<if test="keyword != null">
+			WHERE title like '%'||#{keyword}||'%'
+		</if>
+		ORDER BY b.id DESC
+		OFFSET #{startNum} ROWS
+		FETCH NEXT 3 ROWS ONLY
+	</select>
+
 	<insert id="insert">
-		INSERT INTO users(username, password, email, createdAt) 
-		values(#{username}, #{password},#{email}, NOW())
+		INSERT INTO boards(title, content, usersId,
+		createdAt)
+		values(#{title}, #{content},#{usersId}, NOW())
 	</insert>
 
-	<select id="findById" resultType="site.metacoding.red.domain.users.Users">
-		SELECT * FROM users WHERE id = #{id}
+	<select id="findById"
+		resultType="site.metacoding.red.domain.boards.Boards">
+		SELECT * FROM boards WHERE id = #{id}
 	</select>
-	
+
 	<update id="update">
-		UPDATE users SET password = #{password}, email =#{email} WHERE id = #{id}
+		UPDATE boards SET title = #{title}, content
+		=#{content} WHERE id = #{id}
 	</update>
-	
-	<select id="usernameCheck" resultType="site.metacoding.red.domain.users.Users">
+
+	<select id="usernameCheck"
+		resultType="site.metacoding.red.domain.boards.Boards">
 		SELECT * FROM users WHERE username = #{username}
 	</select>
-	
+
 	<delete id="deleteById">
-		DELETE FROM users WHERE id = #{id}
+		DELETE FROM boards WHERE id = #{id}
 	</delete>
 </mapper>
