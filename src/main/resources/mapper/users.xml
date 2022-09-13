@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.metacoding.red.domain.users.UsersDao">
+	
+	<insert id="insert">
+		INSERT INTO users(id, username, password, email, createdAt) 
+		VALUES(users_seq.nextval, #{username}, #{password}, #{email}, sysdate)
+	</insert>
+
+	<select id="findById" resultType="site.metacoding.red.domain.users.Users">
+		SELECT * FROM users WHERE id = #{id}
+	</select>
+
+</mapper>
