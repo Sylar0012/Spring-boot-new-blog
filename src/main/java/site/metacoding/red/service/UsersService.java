@@ -16,7 +16,7 @@ import site.metacoding.red.web.dto.request.users.UpdateDto;
 
 @RequiredArgsConstructor
 @Service
-public class UsersApiService {
+public class UsersService {
 	
 	private final UsersDao usersDao;
 	private final BoardsDao boardsDao;
