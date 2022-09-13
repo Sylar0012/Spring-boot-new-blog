@@ -24,7 +24,7 @@
 		#{page} currentPage, 0 first, 0 last
 		FROM boards
 		<if test="keyword != null">
-			WHERE title like '%'||#{keyword}||'%'
+			WHERE title like CONCAT ('%',#{keyword},'%')
 		</if>
 		)boards
 	</select>
@@ -34,7 +34,7 @@
 		SELECT * FROM boards b
 		INNER JOIN users u ON b.usersId = u.id
 		<if test="keyword != null">
-			WHERE title like '%'||#{keyword}||'%'
+			WHERE title like CONCAT ('%',#{keyword},'%')
 		</if>
 		ORDER BY b.id DESC
 		OFFSET #{startNum} ROWS
