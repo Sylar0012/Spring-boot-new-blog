@@ -6,9 +6,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.PackagePrivate;
@@ -18,6 +22,7 @@ import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.service.UsersService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
+import site.metacoding.red.web.dto.response.CMRespDto;
 import site.metacoding.red.web.dto.response.boards.PagingDto;
 
 @RequiredArgsConstructor
@@ -47,18 +52,18 @@ public class BoardsController {
 		return"/boards/updateForm";
 	}
 	
-	@PostMapping("/boards/{id}/update")
-	public String boardsUpdate(@PathVariable Integer id, UpdateDto updateDto) {
+	@PutMapping("/boards/{id}/update")
+	public @ResponseBody CMRespDto<?> boardsUpdate(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Boards boardsPS = boardsService.게시글상세보기(id);
 		boardsPS.update(updateDto);
 		boardsService.게시글수정하기(id, updateDto);
-		return "redirect:/boards/"+id;
+		return new CMRespDto<>(1, "게시글 수정성공", null);
 	}
 	
-	@PostMapping("/boards/{id}/delete")
-	public String getBoardsDelete(@PathVariable Integer id) {
+	@DeleteMapping("/boards/{id}/delete")
+	public @ResponseBody CMRespDto<?> getBoardsDelete(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
-		return"redirect:/";
+		return new CMRespDto<>(1, "게시글 삭제 성공", null);
 	}
 	
 	@GetMapping("/boards/writeForm")
@@ -67,8 +72,8 @@ public class BoardsController {
 	}
 	
 	@PostMapping("/boards/write")
-	public String boardsWrite(WriteDto writeDto) {
+	public @ResponseBody CMRespDto<?> boardsWrite(@RequestBody WriteDto writeDto) {
 		boardsService.게시글쓰기(writeDto);
-		return"redirect:/";
+		return  new CMRespDto<>(1, "게시글 쓰기 성공", null);
 	}
 }

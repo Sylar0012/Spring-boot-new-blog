@@ -75,12 +75,12 @@ function checkUsername(){
 	});
 }
 
+
 function login(){
-	alert("login 함수 실행");
-	// 0. 통신 오브젝트 생성
 	let data = {
 		username: $("#username").val(),
-		password: $("#password").val()
+		password: $("#password").val(),
+		remember : $("#remember").prop("checked")
 	};
 
 	$.ajax("/login", {

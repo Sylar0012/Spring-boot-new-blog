@@ -1,5 +1,13 @@
 # MyBatis DB연결 세팅
 
+###paging 설정 변경
+
+- boards.xml (paging) : totalCount, ceil(count(*)/5) totalPage,
+- boards.xml (findAll) : FETCH NEXT 5 ROWS ONLY
+- BoardsService (게시글목록보기) : int startNum = page * 5;
+
+안에 숫자 (5) 수정하면 보이는 갯수 달라짐
+
 ### 설정방법
 - MyBatisConfig 파일 필요
 - resources/mapper/*.xml 파일 필요
@@ -46,8 +54,13 @@ insert into users(username, password, email, createdAt) values('hong', '1234', '
 COMMIT;
 ```
 
-### 회원 탈퇴시 boards의 usersId값이 null인경우 화면에 안보이는 문제
+### 회원 탈퇴시 null값을 익명으로 변경.
 ```
-UPDATE boards SET usersId = '15' WHERE usersId =#{id}
-15는 익명의 유저로 만들어서 해결
+ALTER TABLE users CONVERT TO CHARACTER SET utf8;
+ALTER TABLE boards CONVERT TO CHARACTER SET utf8;
+둘다 해줘야함. 두 테이블의 collation 을 맞춰주기 위함.
+
+안되면 utf-8설정 검색해서 처리.
+SELECT b.id, b.title, b.createdAt, if(u.username IS null, '익명', u.username)as username FROM boards b
+LEFT OUTER JOIN users u ON b.usersId = u.id
 ```

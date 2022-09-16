@@ -15,5 +15,6 @@ public class MainDto {
 	private String title;
 	private String username;
 	private PagingDto pagingDto;
+	
 
 }

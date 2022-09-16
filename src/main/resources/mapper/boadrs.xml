@@ -10,7 +10,7 @@
 	</select>
 
 	<update id="updateByUsersId">
-		UPDATE boards SET usersId = '15' WHERE usersId =#{id}
+		UPDATE boards SET usersId = null WHERE usersId =#{id}
 	</update>
 
 	<select id="paging" parameterType="map"
@@ -20,7 +20,7 @@
 		IF(currentPage = totalPage-1, 1,0) last
 		FROM(
 		select count(*)
-		totalCount, ceil(count(*)/3) totalPage,
+		totalCount, ceil(count(*)/5) totalPage,
 		#{page} currentPage, 0 first, 0 last
 		FROM boards
 		<if test="keyword != null">
@@ -31,15 +31,14 @@
 
 	<select id="findAll" parameterType="map"
 		resultType="site.metacoding.red.web.dto.response.boards.MainDto">
-		SELECT * FROM boards b
-		INNER JOIN users u ON b.usersId = u.id
+		SELECT b.id, b.title, b.createdAt, if(u.username IS null, '익명', u.username)as username FROM boards b
+		LEFT OUTER JOIN users u ON b.usersId = u.id
 		<if test="keyword != null">
 			WHERE title like CONCAT ('%',#{keyword},'%')
 		</if>
-
 		ORDER BY b.id DESC
 		OFFSET #{startNum} ROWS
-		FETCH NEXT 3 ROWS ONLY
+		FETCH NEXT 5 ROWS ONLY
 	</select>
 
 	<insert id="insert">
