@@ -6,10 +6,14 @@
 	
 	<select id="findByUsername"
 		resultType="site.metacoding.red.domain.users.Users">
-		SELECT * FROM users WHERE username=#{username}
+		SELECT * FROM users WHERE username= #{username}
 	</select>
 	
-
+	<select id="login"
+		resultType="site.metacoding.red.domain.users.Users">
+		SELECT * FROM users WHERE username=#{username} AND
+		password=#{password}
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO users(username, password, email, createdAt) 
@@ -23,10 +27,6 @@
 	<update id="update">
 		UPDATE users SET password = #{password}, email =#{email} WHERE id = #{id}
 	</update>
-	
-	<select id="usernameCheck" resultType="site.metacoding.red.domain.users.Users">
-		SELECT * FROM users WHERE username = #{username}
-	</select>
 	
 	<delete id="deleteById">
 		DELETE FROM users WHERE id = #{id}

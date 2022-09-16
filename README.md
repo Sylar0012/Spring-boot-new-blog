@@ -45,3 +45,9 @@ insert into users(username, password, email, createdAt) values('cos', '1234', 'c
 insert into users(username, password, email, createdAt) values('hong', '1234', 'hong@nate.com', NOW());
 COMMIT;
 ```
+
+### 회원 탈퇴시 boards의 usersId값이 null인경우 화면에 안보이는 문제
+```
+UPDATE boards SET usersId = '15' WHERE usersId =#{id}
+15는 익명의 유저로 만들어서 해결
+```

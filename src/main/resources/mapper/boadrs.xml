@@ -9,8 +9,8 @@
 		SELECT * FROM users WHERE username=#{username}
 	</select>
 
-	<update id="UserDelete">
-		UPDATE boards SET usersId = null WHERE usersId =#{id}
+	<update id="updateByUsersId">
+		UPDATE boards SET usersId = '15' WHERE usersId =#{id}
 	</update>
 
 	<select id="paging" parameterType="map"
@@ -36,6 +36,7 @@
 		<if test="keyword != null">
 			WHERE title like CONCAT ('%',#{keyword},'%')
 		</if>
+
 		ORDER BY b.id DESC
 		OFFSET #{startNum} ROWS
 		FETCH NEXT 3 ROWS ONLY

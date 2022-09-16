@@ -30,26 +30,31 @@ public class UsersService {
 	}
 	
 	public Users 로그인(LoginDto loginDto) { //username, password
-		Users usersPs = usersDao.findByUsername(loginDto.getUsername());
-
+		Users usersPS= usersDao.findByUsername(loginDto.getUsername());
+		
+		if(usersPS == null) {
+			return null;
+		}
 		// if로 usersPs의 password와 Dto password 비교
-		if(!(usersPs.getPassword().equals(loginDto.getPassword()))) {
+		if(!(usersPS.getPassword().equals(loginDto.getPassword()))) {
 			return null;
 		}
 		
-		return usersPs;
+		return usersPS;
 		
 	} 
 	
-	public void 회원수정(Integer id, UpdateDto updateDto) { // id, Dto(password, email)
+	public Users 회원수정(Integer id, UpdateDto updateDto) { // id, Dto(password, email)
 		// 1. 영속화
-		Users usersPs = usersDao.findById(id);
+		Users usersPS = usersDao.findById(id);
 		
 		// 2. 영속화된 객체 변경
-		usersPs.update(updateDto);
+		usersPS.update(updateDto);
 		
 		// 3. DB 수행
-		usersDao.update(usersPs);
+		usersDao.update(usersPS);
+		
+		return usersPS;
 		
 	}
 	
@@ -57,24 +62,21 @@ public class UsersService {
 	public void 회원탈퇴(Integer id) { // users - delete, boards -update
 		usersDao.deleteById(id);
 		
-		boardsDao.UserDelete(id);
+		boardsDao.updateByUsersId(id);
 	}
 	
 	public boolean 유저이름중복확인(String username) {
-		Users usersPs = usersDao.usernameCheck(username);
-		
+		Users usersPS = usersDao.findByUsername(username);		
 		// 있으면 true, 없으면 false
-		if (usersPs.getUsername().equals(username) ) {
-			
+		if (usersPS == null) {
+			return false;
+		}else {
 			return true;
 		}
-
-		return false;
-		
 	}
 	
 	public Users 회원정보보기(Integer id) {
-		Users usersPs = usersDao.findById(id);
-		return usersPs;
+		Users usersPS = usersDao.findById(id);
+		return usersPS;
 	}
 }

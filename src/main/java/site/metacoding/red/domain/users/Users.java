@@ -10,9 +10,9 @@ import site.metacoding.red.web.dto.request.users.JoinDto;
 import site.metacoding.red.web.dto.request.users.UpdateDto;
 
 @NoArgsConstructor
-@Setter
 @Getter
 @AllArgsConstructor
+@Setter
 public class Users {
 	private Integer id;
 	private String username;

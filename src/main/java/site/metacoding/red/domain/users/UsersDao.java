@@ -12,5 +12,4 @@ public interface UsersDao {
 	public Users findById(Integer id);
 	public void update(Users users);
 	public void deleteById(Integer id);
-	public Users usernameCheck(String username);
 }
