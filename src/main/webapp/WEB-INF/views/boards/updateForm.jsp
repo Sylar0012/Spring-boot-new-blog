@@ -33,8 +33,7 @@ function update(){
 		headers: {
 			"Content-Type": "application/json"
 		}
-	}).done((res) => {
-		console.log(res);
+	}).done((res) => { 
 		if (res.code == 1) {
 			alert("게시글 수정 완료 ")
 			location.href="/boards/"+id;

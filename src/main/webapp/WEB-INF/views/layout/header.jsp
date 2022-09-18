@@ -33,10 +33,10 @@
 							<li class="nav-item"><a class="nav-link"
 								href="/boards/writeForm">글쓰기</a></li>
 							<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
-							<li class="nav-item"><a class="nav-link">${sessionScope.principal.username}님
+							<li class="nav-item"><a class="nav-link">${principal.username}님
 									반갑습니다 </a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="/users/${sessionScope.principal.id}/updateForm">회원정보
+								href="/users/${principal.id}/updateForm">회원정보
 									수정</a></li>
 						</c:otherwise>
 					</c:choose>

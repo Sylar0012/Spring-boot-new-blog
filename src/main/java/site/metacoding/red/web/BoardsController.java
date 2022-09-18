@@ -18,11 +18,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.PackagePrivate;
 import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.boards.BoardsDao;
+import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.service.UsersService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
 import site.metacoding.red.web.dto.response.CMRespDto;
+import site.metacoding.red.web.dto.response.boards.LovesDto;
 import site.metacoding.red.web.dto.response.boards.PagingDto;
 
 @RequiredArgsConstructor
@@ -39,9 +41,16 @@ public class BoardsController {
 	}
 	
 	@GetMapping("/boards/{id}")
-	public String getBoardsDetail(@PathVariable Integer id, Model model) {
-		Boards boardsPS = boardsService.게시글상세보기(id);
+	public String getBoardsDetail(@PathVariable Integer id, @Param("usersId")Integer usersId ,Model model) {
+		Users principal = (Users) session.getAttribute("principal");
+		Boards boardsPS = boardsService.게시글상세보기(id);		
+		LovesDto lovesPS = boardsService.좋아요여부확인(principal.getId(), id);
+		LovesDto lovesPS2 =boardsService.좋아요수(id);
+
+		model.addAttribute("loves1",lovesPS);
+		model.addAttribute("loves2", lovesPS2);
 		model.addAttribute(boardsPS);
+
 		return "boards/detail";
 	}
 	
@@ -49,6 +58,7 @@ public class BoardsController {
 	public String getBoardsUpdate(@PathVariable Integer id, Model model) {
 		Boards boardsPS = boardsService.게시글상세보기(id);
 		model.addAttribute(boardsPS);
+		
 		return"/boards/updateForm";
 	}
 	
@@ -75,5 +85,17 @@ public class BoardsController {
 	public @ResponseBody CMRespDto<?> boardsWrite(@RequestBody WriteDto writeDto) {
 		boardsService.게시글쓰기(writeDto);
 		return  new CMRespDto<>(1, "게시글 쓰기 성공", null);
+	}
+	
+	@PostMapping("/boards/loves/{id}")
+	public @ResponseBody CMRespDto<?> boardsLoves(@PathVariable Integer id, @RequestBody LovesDto lovesDto){
+		boardsService.좋아요(lovesDto);
+		return new CMRespDto<>(1, "좋아요 누름", null);
+	}
+	
+	@DeleteMapping ("/boards/loves/{boardsId}")
+	public @ResponseBody CMRespDto<?> boardsDisLoves(@PathVariable Integer boardsId, LovesDto lovesDto){
+		boardsService.좋아요취소(boardsId, lovesDto);
+		return new CMRespDto<>(1, "좋아요 취소", null);
 	}
 }

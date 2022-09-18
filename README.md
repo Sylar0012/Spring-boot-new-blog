@@ -27,22 +27,29 @@ GRANT ALL PRIVILEGES ON greendb.* TO 'green'@'%';
 USE greendb;
 
 create table users(
-    id int primary KEY AUTO_INCREMENT,
-    username varchar(20),
+    id int primary KEY auto_increment,
+    username varchar(20) unique,
     password varchar(20),
     email varchar(50),
     createdAt TIMESTAMP
 );
-
+ 
 create table boards(
-    id int primary KEY AUTO_INCREMENT,
-    title varchar(15greendb0),
+    id int primary key,
+    title varchar(150),
     content longtext,
     usersId int,
-    createdAt TIMESTAMP,
-    CONSTRAINT fk_users_id FOREIGN KEY(usersId) REFERENCES users(id)
+    createdAt TIMESTAMP
 );
 
+create table loves(
+    id int PRIMARY key,
+    usersId int,
+    boardsId int,
+    createdAt TIMESTAMP
+);
+
+ALTER TABLE loves ADD UNIQUE (usersid, boardsid);
 
 ```
 
@@ -56,6 +63,8 @@ COMMIT;
 
 ### 회원 탈퇴시 null값을 익명으로 변경.
 ```
+https://sylar.tistory.com/188 참고
+
 ALTER TABLE users CONVERT TO CHARACTER SET utf8;
 ALTER TABLE boards CONVERT TO CHARACTER SET utf8;
 둘다 해줘야함. 두 테이블의 collation 을 맞춰주기 위함.
@@ -63,4 +72,6 @@ ALTER TABLE boards CONVERT TO CHARACTER SET utf8;
 안되면 utf-8설정 검색해서 처리.
 SELECT b.id, b.title, b.createdAt, if(u.username IS null, '익명', u.username)as username FROM boards b
 LEFT OUTER JOIN users u ON b.usersId = u.id
+
+
 ```

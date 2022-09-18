@@ -14,6 +14,7 @@ import site.metacoding.red.domain.users.Users;
 import site.metacoding.red.domain.users.UsersDao;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
+import site.metacoding.red.web.dto.response.boards.LovesDto;
 import site.metacoding.red.web.dto.response.boards.MainDto;
 import site.metacoding.red.web.dto.response.boards.PagingDto;
 
@@ -57,7 +58,6 @@ public class BoardsService {
 	}
 	
 	public void 게시글삭제하기(Integer id) {
-		
 		boardsDao.deleteById(id);
 	}
 	
@@ -66,4 +66,24 @@ public class BoardsService {
 		boardsDao.insert(writeDto.toEntity(principal.getId()));
 	}
 	
+	public void 좋아요(LovesDto lovesDto) {
+		boardsDao.love(lovesDto);
+	}
+	
+	public void 좋아요취소(Integer boardsId, LovesDto lovesDto) {
+		Users principal = (Users) session.getAttribute("principal");
+		lovesDto.lovesInfo(principal.getId(),boardsId);
+		boardsDao.disLove(lovesDto);
+	}
+
+	public LovesDto 좋아요여부확인(@Param ("usersId") Integer usersId, @Param ("boardsId")Integer boardsId) {
+	
+		LovesDto lovesDto = boardsDao.lovesChecking(usersId, boardsId);
+		
+		return lovesDto;
+	}
+	public LovesDto 좋아요수(Integer boardsId) {
+		LovesDto lovesDto = boardsDao.totalLoves(boardsId);
+		return lovesDto;
+	}
 }

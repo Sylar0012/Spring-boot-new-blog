@@ -15,13 +15,15 @@
 
 	<select id="paging" parameterType="map"
 		resultType="site.metacoding.red.web.dto.response.boards.PagingDto">
-		SELECT totalCount,	totalPage,	currentPage,
-		IF(currentPage = 0, 1, 0) first,
+		SELECT totalCount, totalPage, currentPage,
+		IF(currentPage = 0, 1, 0)
+		first,
 		IF(currentPage = totalPage-1, 1,0) last
 		FROM(
 		select count(*)
 		totalCount, ceil(count(*)/5) totalPage,
-		#{page} currentPage, 0 first, 0 last
+		#{page} currentPage, 0 first, 0
+		last
 		FROM boards
 		<if test="keyword != null">
 			WHERE title like CONCAT ('%',#{keyword},'%')
@@ -31,8 +33,10 @@
 
 	<select id="findAll" parameterType="map"
 		resultType="site.metacoding.red.web.dto.response.boards.MainDto">
-		SELECT b.id, b.title, b.createdAt, if(u.username IS null, '익명', u.username)as username FROM boards b
-		LEFT OUTER JOIN users u ON b.usersId = u.id
+		SELECT b.id, b.title, b.createdAt, if(u.username IS null, '익명',
+		u.username)as username FROM boards b
+		LEFT OUTER JOIN users u ON
+		b.usersId = u.id
 		<if test="keyword != null">
 			WHERE title like CONCAT ('%',#{keyword},'%')
 		</if>
@@ -65,4 +69,23 @@
 	<delete id="deleteById">
 		DELETE FROM boards WHERE id = #{id}
 	</delete>
+	
+	<select id="lovesChecking" parameterType="map" resultType="site.metacoding.red.web.dto.response.boards.LovesDto">
+		SELECT COUNT(*) AS lovesCheck FROM loves WHERE boardsId =#{boardsId} AND usersID =#{usersId}
+	</select>
+	
+	<select id="totalLoves" resultType="site.metacoding.red.web.dto.response.boards.LovesDto">
+		SELECT COUNT(*) as totalLoves FROM loves WHERE boardsId = #{boardsId}
+	</select>
+
+	<insert id="love">
+		INSERT INTO loves(usersId, boardsId, createdAt)
+		values(#{usersId}, #{boardsId}, NOW())
+	</insert>
+
+	<delete id="disLove">
+		DELETE FROM loves WHERE usersId = #{usersId} AND
+		boardsId = #{boardsId}
+	</delete>
+	
 </mapper>
