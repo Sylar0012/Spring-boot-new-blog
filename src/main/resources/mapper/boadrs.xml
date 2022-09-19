@@ -4,6 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.red.domain.boards.BoardsDao">
 
+	<select id="findByBoardsId"
+		resultType="site.metacoding.red.web.dto.response.boards.DetailDto">
+		SELECT
+		b.*,
+		(SELECT id FROM loves WHERE usersId = #{principalId} AND boardsId	= #{boardsId}) lovesId,
+		(SELECT 1 FROM loves WHERE usersId = #{principalId} AND boardsId = #{boardsId}) isLoved,
+		(SELECT COUNT(*) FROM loves WHERE boardsId = #{boardsId}) loveCount
+		FROM boards b WHERE b.id = #{boardsId}
+	</select>
+
 	<select id="findByUsername"
 		resultType="site.metacoding.red.domain.users.Users">
 		SELECT * FROM users WHERE username=#{username}
@@ -69,6 +79,6 @@
 	<delete id="deleteById">
 		DELETE FROM boards WHERE id = #{id}
 	</delete>
-	
-	
+
+
 </mapper>

@@ -6,12 +6,12 @@
 <input id="keyword" type="hidden" value="${sessionScope.referer.keyword}">
 <div class="container">
    <br /> <br /> 
-   <input id="id" type="hidden" value="${detailDto.boards.id}" />
-   <input id="lovesId" type="text" value="${detailDto.lovesDto.lovesId }"/>
+   <input id="id" type="hidden" value="${detailDto.id}" />
+   <input id="lovesId" type="hidden" value="${detailDto.lovesId }"/>
 
    <div class="d-flex">
 
-      <a href="/boards/${detailDto.boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
+      <a href="/boards/${detailDto.id}/updateForm" class="btn btn-warning">수정하러가기</a>
 
       <form>
          <button id="btnDelete" class="btn btn-danger">삭제</button>
@@ -21,15 +21,15 @@
 
    <br />
    <div class="d-flex justify-content-between">
-      <h3>${detailDto.boards.title}</h3>
+      <h3>${detailDto.title}</h3>
       <div>
-         좋아요수 : <span id="countLove">${detailDto.lovesDto.count}</span> 
-         <i id="iconLove" class='${detailDto.lovesDto.loved ? "fa-solid" : "fa-regular"} fa-heart my_pointer my_red'></i>
+         좋아요수 : <span id="countLove">${detailDto.loveCount}</span> 
+         <i id="iconLove" class='${detailDto.loved ? "fa-solid" : "fa-regular"} fa-heart my_pointer my_red'></i>
       </div>
    </div>
    <hr />
 
-   <div>${detailDto.boards.content}</div>
+   <div>${detailDto.content}</div>
 </div>
 
 <script>

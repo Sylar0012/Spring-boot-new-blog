@@ -4,35 +4,30 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.metacoding.red.domain.loves.LovesDao">
 
-   <select id="findByBoardsId" resultType="site.metacoding.red.web.dto.response.loves.LovesDto">
-      SELECT id lovesId, if(usersId = #{principalId}, 1, 0) isLoved,
-      (SELECT COUNT(*) FROM loves WHERE boardsId = #{boardsId}) count
-      FROM loves
-      WHERE boardsId = #{boardsId} GROUP BY count
-   </select>
-	
-   <select id="findAll"
-      resultType="site.metacoding.red.domain.loves.Loves">
-      SELECT * FROM loves
-   </select>
 
-   <insert id="insert">
-      INSERT INTO loves(usersId, boardsId, createdAt)
-      VALUES(#{usersId}, #{boardsId}, now())
-   </insert>
 
-   <select id="findById"
-      resultType="site.metacoding.red.domain.loves.Loves">
-      SELECT * FROM loves WHERE id=#{id}
-   </select>
+	<select id="findAll"
+		resultType="site.metacoding.red.domain.loves.Loves">
+		SELECT * FROM loves
+	</select>
 
-   <update id="update">
+	<insert id="insert">
+		INSERT INTO loves(usersId, boardsId, createdAt)
+		VALUES(#{usersId}, #{boardsId}, now())
+	</insert>
 
-   </update>
+	<select id="findById"
+		resultType="site.metacoding.red.domain.loves.Loves">
+		SELECT * FROM loves WHERE id=#{id}
+	</select>
 
-   <delete id="deleteById">
-      DELETE FROM loves WHERE id = #{id}
-   </delete>
+	<update id="update">
+
+	</update>
+
+	<delete id="deleteById">
+		DELETE FROM loves WHERE id = #{id}
+	</delete>
 
 </mapper>
 
