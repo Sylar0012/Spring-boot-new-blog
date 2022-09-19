@@ -1,5 +1,8 @@
 package site.metacoding.red.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
@@ -37,6 +40,10 @@ public class BoardsController {
 	public String getBoardsList(Model model, @Param("page") Integer page, @Param("keyword")String keyword) {
 		PagingDto pagingDto = boardsService.게시글목록보기(page, keyword);
 		model.addAttribute("pagingDto", pagingDto);
+		Map<String,Object> referer = new HashMap<>();
+		referer.put("page", pagingDto.getCurrentPage());
+		referer.put("keyword", pagingDto.getKeyword());
+		session.setAttribute("referer", referer);
 		return "boards/main";
 	}
 	
@@ -70,7 +77,7 @@ public class BoardsController {
 		return new CMRespDto<>(1, "게시글 수정성공", null);
 	}
 	
-	@DeleteMapping("/boards/{id}/delete")
+	@DeleteMapping("/boards/{id}")
 	public @ResponseBody CMRespDto<?> getBoardsDelete(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
 		return new CMRespDto<>(1, "게시글 삭제 성공", null);
@@ -87,13 +94,13 @@ public class BoardsController {
 		return  new CMRespDto<>(1, "게시글 쓰기 성공", null);
 	}
 	
-	@PostMapping("/boards/loves/{id}")
+	@PostMapping("/loves/{id}")
 	public @ResponseBody CMRespDto<?> boardsLoves(@PathVariable Integer id, @RequestBody LovesDto lovesDto){
 		boardsService.좋아요(lovesDto);
 		return new CMRespDto<>(1, "좋아요 누름", null);
 	}
 	
-	@DeleteMapping ("/boards/loves/{boardsId}")
+	@DeleteMapping ("/loves/{boardsId}")
 	public @ResponseBody CMRespDto<?> boardsDisLoves(@PathVariable Integer boardsId, LovesDto lovesDto){
 		boardsService.좋아요취소(boardsId, lovesDto);
 		return new CMRespDto<>(1, "좋아요 취소", null);

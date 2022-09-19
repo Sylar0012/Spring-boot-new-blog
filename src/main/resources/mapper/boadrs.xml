@@ -71,11 +71,11 @@
 	</delete>
 	
 	<select id="lovesChecking" parameterType="map" resultType="site.metacoding.red.web.dto.response.boards.LovesDto">
-		SELECT COUNT(*) AS lovesCheck FROM loves WHERE boardsId =#{boardsId} AND usersID =#{usersId}
+		SELECT *,COUNT(*) AS lovesCheck FROM loves WHERE boardsId =#{boardsId} AND usersID =#{usersId}
 	</select>
 	
 	<select id="totalLoves" resultType="site.metacoding.red.web.dto.response.boards.LovesDto">
-		SELECT COUNT(*) as totalLoves FROM loves WHERE boardsId = #{boardsId}
+		SELECT *,COUNT(*) as totalLoves FROM loves WHERE boardsId = #{boardsId}
 	</select>
 
 	<insert id="love">

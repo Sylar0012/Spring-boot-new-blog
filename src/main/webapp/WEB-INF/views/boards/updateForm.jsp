@@ -16,6 +16,10 @@
 </div>
 
 <script>
+$('#content').summernote({
+	height : 400
+});
+
 $("#btnUpdate").click(() => {
 	update();
 });
@@ -40,7 +44,7 @@ function update(){
 
 		} else {
 			alert("게시글 수정 실패");
-			location.href = "/boards/"+id;
+
 		}
 	});
 }

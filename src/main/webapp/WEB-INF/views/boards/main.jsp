@@ -27,7 +27,7 @@
 			<c:forEach var="boards" items="${pagingDto.mainDtos}">
 				<tr>
 					<td>${boards.id }</td>
-					<td><a href="/boards/${boards.id }">${boards.title }</a></td>
+					<td><a href="/boards/${boards.id}?page=${pagingDto.currentPage+1}&keyword=${pagingDto.keyword}">${boards.title }</a></td>
 					<td>${boards.username }</td>
 				</tr>
 			</c:forEach>
@@ -37,12 +37,12 @@
 	<div class="d-flex justify-content-center">
 		<ul class="pagination">
 			<li class='page-item ${pagingDto.first ? "disabled" : "" }'><a class="page-link"
-				href="?page=${pagingDto.currentPage-1 }">Prev</a></li>
+				href="?page=${pagingDto.currentPage-1 }&keyword=${pagingDto.keyword}">Prev</a></li>
 			<c:forEach var="num" begin="${pagingDto.startPageNum +1}" end="${pagingDto.lastPageNum}" step="1">
 				<a class="page-link" href='?page=${num-1}&keyword=${pagingDto.keyword}'>${num}</a>
 			</c:forEach>
 			<li class='page-item ${pagingDto.last ? "disabled" : "" }'><a class="page-link"
-				href="?page=${pagingDto.currentPage+1 }">Next</a></li>
+				href="?page=${pagingDto.currentPage+1 }&keyword=${pagingDto.keyword}">Next</a></li>
 		</ul>
 	</div>
 </div>

@@ -43,7 +43,7 @@ create table boards(
 );
 
 create table loves(
-    id int PRIMARY key,
+    id int PRIMARY KEY AUTO_INCREMENT,
     usersId int,
     boardsId int,
     createdAt TIMESTAMP

@@ -1,33 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
+	<input id="page" type ="hidden" value="${sessionScope.referer.page }">
+	<input id="keyword" type ="hidden" value="${sessionScope.referer.keyword }">
 	<br /> <br />
-		<div class="d-flex">
+	<div class="d-flex">
+		<input id="uid" type="hidden" value="${principal.id}"> <a
+			href="/boards/${boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
+		<form>
 			<input id="bid" type="hidden" value="${boards.id}">
-			<input id="uid" type="hidden" value="${principal.id}">
-			<a href="/boards/${boards.id}/updateForm" class="btn btn-warning">수정하러가기</a>
-			<form>
-				<button id="btnDelete" type="button" class="btn btn-danger">삭제</button>
-			</form>
-		</div>
+			<button id="btnDelete" type="button" class="btn btn-danger">삭제</button>
+		</form>
+	</div>
 
 
 	<br />
 	<div class="d-flex justify-content-between">
 		<h3>${boards.title }</h3>
-		<div>좋아요 : ${loves2.totalLoves} <i id="iconHeart" class="fa-regular fa-heart" ></i></div>
+		<div>
+			좋아요 : ${loves2.totalLoves} <i id="iconHeart"
+				class="fa-regular fa-heart"></i>
+		</div>
 	</div>
 	<hr />
 
 	<div>${boards.content }</div>
-	<hr/>
+	<hr />
 	<div>
 		<p>LovesDto.usersId : ${loves1.usersId}</p>
 		<p>LovesDto.boardsId : ${loves1.boardsId}</p>
 		<p>LovesDto.totalLoves : ${loves2. totalLoves}</p>
-		<p>LovesDto.LovesCheck : ${loves2.isLovesCheck}</p>
+		<p>LovesDto.LovesCheck : ${loves2. lovesCheck}</p>
+		<p>LovesDto.loves : ${loves2.loves}</p>
+		<p>currentPage : ${referer.page}</p>
+		<p>keyword : ${referer.keyword }</p>
 	</div>
 </div>
 
@@ -37,19 +46,19 @@
 	});
 
 	$("#btnDelete").click(()=>{
-			resign();
+		deleteById();
 	});
 	
-	function resign(){
-		let bid = $("#bid").val();
-
-		$.ajax("/boards/"+bid+"/delete", {
+	function deleteById(){
+		let id = $("#bid").val();
+		let page = $("#page").val();
+		let keyword = $("#keyword").val();	
+		$.ajax("/boards/"+id, {
 			type: "DELETE",
 			dataType: "json"
 		}).done((res) => {
 			if (res.code == 1) {
-				location.href = "/";
-				alert("게시글 삭제성공")
+				location.href = "/boards?page="+page+"&keyword="+keyword;
 			} else {
 				alert("게시글 삭제실패")
 			}
@@ -69,7 +78,7 @@
 			$("#iconHeart").addClass("fa-solid");
 			$("#iconHeart").css("color","red");
 			
-			$.ajax("/boards/loves/"+id, {
+			$.ajax("/loves/"+id, {
 				type: "POST",
 				dataType: "json",
 				data: JSON.stringify(data),
@@ -90,7 +99,7 @@
 			$("#iconHeart").addClass("fa-regular");
 			$("#iconHeart").css("color","black");
 			
-			$.ajax("/boards/loves/"+id, {
+			$.ajax("/loves/"+id, {
 				type: "DELETE",
 				dataType: "json"
 			}).done((res) => {
