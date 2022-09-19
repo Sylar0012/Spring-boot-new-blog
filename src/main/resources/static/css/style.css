@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+.my_pointer{
+	cursor: pointer;
+}
+.my_red{
+	color : red;
+}

@@ -46,10 +46,10 @@ create table loves(
     id int PRIMARY KEY AUTO_INCREMENT,
     usersId int,
     boardsId int,
-    createdAt TIMESTAMP
+    createdAt TIMESTAMP,
+    UNIQUE uk_loves (usersId,boardsId)
 );
 
-ALTER TABLE loves ADD UNIQUE (usersid, boardsid);
 
 ```
 

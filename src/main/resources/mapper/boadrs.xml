@@ -70,22 +70,5 @@
 		DELETE FROM boards WHERE id = #{id}
 	</delete>
 	
-	<select id="lovesChecking" parameterType="map" resultType="site.metacoding.red.web.dto.response.boards.LovesDto">
-		SELECT *,COUNT(*) AS lovesCheck FROM loves WHERE boardsId =#{boardsId} AND usersID =#{usersId}
-	</select>
-	
-	<select id="totalLoves" resultType="site.metacoding.red.web.dto.response.boards.LovesDto">
-		SELECT *,COUNT(*) as totalLoves FROM loves WHERE boardsId = #{boardsId}
-	</select>
-
-	<insert id="love">
-		INSERT INTO loves(usersId, boardsId, createdAt)
-		values(#{usersId}, #{boardsId}, NOW())
-	</insert>
-
-	<delete id="disLove">
-		DELETE FROM loves WHERE usersId = #{usersId} AND
-		boardsId = #{boardsId}
-	</delete>
 	
 </mapper>

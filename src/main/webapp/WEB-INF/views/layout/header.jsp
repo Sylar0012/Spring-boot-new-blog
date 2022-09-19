@@ -13,6 +13,8 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
