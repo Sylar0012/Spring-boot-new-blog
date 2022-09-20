@@ -6,12 +6,11 @@
 
 	<select id="findByBoardsId"
 		resultType="site.metacoding.red.web.dto.response.boards.DetailDto">
-		SELECT
-		b.*,
-		(SELECT id FROM loves WHERE usersId = #{principalId} AND boardsId	= #{boardsId}) lovesId,
-		(SELECT 1 FROM loves WHERE usersId = #{principalId} AND boardsId = #{boardsId}) isLoved,
+		SELECT bo.*, lo.id lovesId, if(lo.id IS NULL, 0, 1) isLoved,
 		(SELECT COUNT(*) FROM loves WHERE boardsId = #{boardsId}) loveCount
-		FROM boards b WHERE b.id = #{boardsId}
+		FROM boards bo
+		LEFT OUTER JOIN (SELECT * FROM loves WHERE usersId = #{principalId}) lo
+		ON bo.Id = lo.boardsId WHERE bo.id = #{boardsId}
 	</select>
 
 	<select id="findByUsername"

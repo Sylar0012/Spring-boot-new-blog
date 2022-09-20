@@ -7,7 +7,7 @@
 <div class="container">
    <br /> <br /> 
    <input id="id" type="hidden" value="${detailDto.id}" />
-   <input id="lovesId" type="hidden" value="${detailDto.lovesId }"/>
+   <input id="lovesId" type="hidden" value="${detailDto.lovesId}"/>
 
    <div class="d-flex">
 
@@ -77,9 +77,11 @@
          dataType: "json"
       }).done((res) => {
          if (res.code == 1) {
+        	console.log(res);
             renderLoves();
             let count = $("#countLove").text();
             $("#countLove").text(Number(count)+1);
+          	$("#lovesId").val(res.data.id);
          }else{
             alert("좋아요 실패했습니다");
          }
@@ -88,13 +90,14 @@
    
    // DB에 delete 요청하기
    function deleteLove(){
-	   let id = $("#lovesId").val();
-	      
-	      $.ajax("/boards/"+id+"/loves", {
+	   let lovesId = $("#lovesId").val();
+	   let boardsId = $("#id").val()
+	      $.ajax("/boards/"+boardsId+"/loves/"+lovesId, {
 	         type: "DELETE",
 	         dataType: "json"
 	      }).done((res) => {
 	         if (res.code == 1) {
+	        	 console.log(res);
 	        	 renderCancelLoves();
 	            let count = $("#countLove").text();
 	            $("#countLove").text(Number(count)-1);

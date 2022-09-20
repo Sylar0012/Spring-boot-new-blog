@@ -8,6 +8,6 @@ public interface LovesDao {
 	public List<Loves> findAll();
 	public Loves findById(Integer id);
 	public void update(Loves loves);
-	public void deleteById(Integer id);
+	public void deleteById(Integer lovesId);
 	
 }

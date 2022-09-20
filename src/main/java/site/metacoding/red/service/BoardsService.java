@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.metacoding.red.domain.boards.Boards;
@@ -24,17 +25,18 @@ import site.metacoding.red.web.dto.response.boards.PagingDto;
 @RequiredArgsConstructor
 @Service
 public class BoardsService {
-	private final UsersDao usersDao;
+
 	private final BoardsDao boardsDao;
 	private final LovesDao lovesDao;
 	private final HttpSession session;
 
-	public void 좋아요취소(Integer id) {
-		lovesDao.deleteById(id);
+	public void 좋아요취소(Integer lovesId) {
+		lovesDao.deleteById(lovesId);
 	}
-
-	public void 좋아요(Loves loves) {
+	
+	public Loves 좋아요(Loves loves) {
 		lovesDao.insert(loves);
+		return loves;
 	}
 
 	public PagingDto 게시글목록보기(@Param("page") Integer page, @Param("keyword") String keyword) {

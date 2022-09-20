@@ -28,6 +28,7 @@ import site.metacoding.red.service.UsersService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
 import site.metacoding.red.web.dto.request.boards.WriteDto;
 import site.metacoding.red.web.dto.response.CMRespDto;
+import site.metacoding.red.web.dto.response.boards.DetailDto;
 import site.metacoding.red.web.dto.response.boards.PagingDto;
 
 @RequiredArgsConstructor
@@ -42,12 +43,12 @@ public class BoardsController {
 		Users principal = (Users) session.getAttribute("principal");
 		Loves loves = new Loves(principal.getId(), id);
 		boardsService.좋아요(loves);
-		return new CMRespDto<>(1, "좋아요 누름", null);
+		return new CMRespDto<>(1, "좋아요 누름", loves);
 	}
 
-	@DeleteMapping("/boards/{id}/loves")
-	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable Integer id) {
-		boardsService.좋아요취소(id);
+	@DeleteMapping({"/boards/{id}/loves/{lovesId}"})
+	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable(value = "id") Integer id,@PathVariable(value="lovesId") Integer lovesId) {
+		boardsService.좋아요취소(lovesId);
 		return new CMRespDto<>(1, "좋아요 취소", null);
 	}
 

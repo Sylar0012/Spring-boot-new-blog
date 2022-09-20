@@ -11,7 +11,7 @@
 		SELECT * FROM loves
 	</select>
 
-	<insert id="insert">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO loves(usersId, boardsId, createdAt)
 		VALUES(#{usersId}, #{boardsId}, now())
 	</insert>
@@ -26,7 +26,7 @@
 	</update>
 
 	<delete id="deleteById">
-		DELETE FROM loves WHERE id = #{id}
+		DELETE FROM loves WHERE id = #{Lovesid}
 	</delete>
 
 </mapper>
