@@ -79,22 +79,25 @@ public class UsersController {
 		session.setAttribute("principal", principal);
 		return new CMRespDto<>(1, "로그인 성공", null);
 	}
-
-	@GetMapping("/users/{id}/updateForm")
+	
+	//인증 필요
+	@GetMapping("/s/users/{id}")
 	public String updateForm(@PathVariable Integer id, Model model) {
 		Users usersPS = usersService.회원정보보기(id);
 		model.addAttribute("users", usersPS);
 		return "users/updateForm";
 	}
-
-	@PutMapping("users/{id}")
+	
+	//인증 필요
+	@PutMapping("/s/api/users/{id}")
 	public @ResponseBody CMRespDto<?> update(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Users usersPS = usersService.회원수정(id, updateDto);
 		session.setAttribute("principal", usersPS);
 		return new CMRespDto<>(1, "회원정보 수정 성공", null);
 	}
-
-	@DeleteMapping("/users/{id}")
+	
+	//인증 필요
+	@DeleteMapping("/s/api/users/{id}")
 	public @ResponseBody CMRespDto<?> delete(@PathVariable Integer id) {
 		usersService.회원탈퇴(id);
 		session.invalidate();

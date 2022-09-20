@@ -15,41 +15,7 @@
 	</form>
 </div>
 
-<script>
-$('#content').summernote({
-	height : 400
-});
-
-$("#btnUpdate").click(() => {
-	update();
-});
-
-function update(){
-	let data = {
-			title: $("#title").val(),
-			content: $("#content").val()
-		};
-	let id = $("#id").val();
-	$.ajax("/boards/"+id+"/update", {
-		type: "PUT",
-		dataType: "json",
-		data: JSON.stringify(data),
-		headers: {
-			"Content-Type": "application/json"
-		}
-	}).done((res) => { 
-		if (res.code == 1) {
-			alert("게시글 수정 완료 ")
-			location.href="/boards/"+id;
-
-		} else {
-			alert("게시글 수정 실패");
-
-		}
-	});
-}
-
-</script>
+<script src="/js/boards.js"></script>
 
 <%@ include file="../layout/footer.jsp"%>
 

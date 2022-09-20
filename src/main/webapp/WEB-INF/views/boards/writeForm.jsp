@@ -15,44 +15,8 @@
 		<button id="btnSave" type="button" class="btn btn-primary">글쓰기완료</button>
 	</form>
 </div>
-<script>
-	$('#content').summernote({
-		height : 400
-	});
-	
-	$("#btnSave").click(()=>{
-		save();
-	});
-	
-	
-	function save(){
-		let data={
-				title : $("#title").val(),
-				content : $("#content").val(),
-				usersid: $("#id").val()
-			}
-		let id = $("#id").val();
-		$.ajax("/boards/write", {
-			type: "POST",
-			dataType: "json",
-			data: JSON.stringify(data),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		}).done((res) => {
-			console.log(res);
-			if (res.code == 1) {
-				alert("게시글 입력완료 ")
-				location.href="/boards/"+id;
 
-			} else {
-				alert("게시글 입력실패");
-				location.href = "/boards/"+id;
-			}
-	});
-}
-	
-</script>
+<script src="/js/boards.js"></script>
 
 <%@ include file="../layout/footer.jsp"%>
 

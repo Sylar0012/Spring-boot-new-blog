@@ -6,7 +6,9 @@
 
 	<select id="findByBoardsId"
 		resultType="site.metacoding.red.web.dto.response.boards.DetailDto">
-		SELECT bo.*, lo.id lovesId, if(lo.id IS NULL, 0, 1) isLoved,
+		SELECT bo.*, 
+		lo.id lovesId, 
+		if(lo.id IS NULL, 0, 1) isLoved,
 		(SELECT COUNT(*) FROM loves WHERE boardsId = #{boardsId}) loveCount
 		FROM boards bo
 		LEFT OUTER JOIN (SELECT * FROM loves WHERE usersId = #{principalId}) lo

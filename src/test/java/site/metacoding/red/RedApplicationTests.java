@@ -8,6 +8,7 @@ class RedApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

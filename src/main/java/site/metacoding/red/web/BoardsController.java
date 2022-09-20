@@ -36,18 +36,21 @@ import site.metacoding.red.web.dto.response.boards.PagingDto;
 public class BoardsController {
 	private final BoardsService boardsService;
 	private final HttpSession session;
-
-	// 어떤게시글을 누가 좋아하는지 ( boardsId, usersId )
-	@PostMapping("/boards/{id}/loves")
+	
+	// 인증필요
+	// 어떤게시글을 누가 좋아하는지 ( boardsId, usersId ) 
+	@PostMapping("/s/api/boards/{id}/loves")
 	public @ResponseBody CMRespDto<?> insertLoves(@PathVariable Integer id) {
 		Users principal = (Users) session.getAttribute("principal");
 		Loves loves = new Loves(principal.getId(), id);
 		boardsService.좋아요(loves);
 		return new CMRespDto<>(1, "좋아요 누름", loves);
 	}
-
-	@DeleteMapping({"/boards/{id}/loves/{lovesId}"})
-	public @ResponseBody CMRespDto<?> deleteLoves(@PathVariable(value = "id") Integer id,@PathVariable(value="lovesId") Integer lovesId) {
+	
+	//인증 필요
+	@DeleteMapping("/s/api/boards/{id}/loves/{lovesId}")
+	public @ResponseBody CMRespDto<?> deleteLoves
+	(@PathVariable Integer id,@PathVariable Integer lovesId) {
 		boardsService.좋아요취소(lovesId);
 		return new CMRespDto<>(1, "좋아요 취소", null);
 	}
@@ -62,7 +65,7 @@ public class BoardsController {
 		session.setAttribute("referer", referer);
 		return "boards/main";
 	}
-
+	
 	@GetMapping("/boards/{id}")
 	public String getBoardDetail(@PathVariable Integer id, Model model) {
 		Users principal = (Users) session.getAttribute("principal");
@@ -71,41 +74,45 @@ public class BoardsController {
 		} else {
 			model.addAttribute("detailDto", boardsService.게시글상세보기(id, principal.getId()));
 		}
-		
 		return "boards/detail";
 	}
-
-	@GetMapping("/boards/{id}/updateForm")
+	
+	//인증 필요
+	@GetMapping("/s/boards/{id}/updateForm")
 	public String getBoardsUpdate(@PathVariable Integer id, Model model) {
 		Boards boardsPS = boardsService.게시글수정화면데이터가져오기(id);
 		model.addAttribute(boardsPS);
 
 		return "/boards/updateForm";
 	}
-
-	@PutMapping("/boards/{id}/update")
+	 
+	//인증 필요
+	@PutMapping("/s/api/boards/{id}/update")
 	public @ResponseBody CMRespDto<?> boardsUpdate(@PathVariable Integer id, @RequestBody UpdateDto updateDto) {
 		Boards boardsPS = boardsService.게시글수정화면데이터가져오기(id);
 		boardsPS.update(updateDto);
 		boardsService.게시글수정하기(id, updateDto);
 		return new CMRespDto<>(1, "게시글 수정성공", null);
 	}
-
-	@DeleteMapping("/boards/{id}")
+	
+	//인증 필요
+	@DeleteMapping("/s/api/boards/{id}")
 	public @ResponseBody CMRespDto<?> getBoardsDelete(@PathVariable Integer id) {
 		boardsService.게시글삭제하기(id);
 		return new CMRespDto<>(1, "게시글 삭제 성공", null);
 	}
-
-	@GetMapping("/boards/writeForm")
-	public String getBoardsWrite() {
-		return "/boards/writeForm";
-	}
-
-	@PostMapping("/boards/write")
+		
+	//인증 필요
+	@PostMapping("/s/api/boards/write")
 	public @ResponseBody CMRespDto<?> boardsWrite(@RequestBody WriteDto writeDto) {
 		boardsService.게시글쓰기(writeDto);
 		return new CMRespDto<>(1, "게시글 쓰기 성공", null);
+	}
+	
+	//인증 필요
+	@GetMapping("/s/boards/writeForm")
+	public String getBoardsWrite() {
+		return "/boards/writeForm";
 	}
 
 }

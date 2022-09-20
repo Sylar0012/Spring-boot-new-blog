@@ -40,10 +40,10 @@ function join(){
 			"Content-Type": "application/json"
 		}
 	}).done((res) => {
-		if ($("#password") != $("#passwordSame")) {
+		if ($("#password").val != $("#passwordSame").val) {
 			alert("비밀번호가 다릅니다. ")
 			return;
-		} else if (res.code == 1 && $("#password") == $("#passwordSame")) {
+		} else if (res.code == 1 && $("#password").val == $("#passwordSame").val) {
 			alert("회원가입이 완료되었습니다. 로그인페이지로 이동합니다.");
 			location.href = "/loginForm";
 		}
@@ -107,7 +107,7 @@ function update(){
 	};
 
 	let id = $("#id").val();
-	$.ajax("/users/" + id, {
+	$.ajax("/s/api/users/" + id, {
 		type: "PUT",
 		dataType: "json",
 		data: JSON.stringify(data),
@@ -127,7 +127,7 @@ function update(){
 function resign(){
 	let id = $("#id").val();
 
-	$.ajax(`/users/${id}`, {
+	$.ajax(`/s/api/users/${id}`, {
 		type: "DELETE",
 		dataType: "json"
 	}).done((res) => {
