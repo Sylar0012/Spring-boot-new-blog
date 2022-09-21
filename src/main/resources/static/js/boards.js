@@ -1,3 +1,4 @@
+let id = $("#id").val();
 
 $("#btnDelete").click(() => {
 	deleteById();
@@ -31,7 +32,6 @@ function save() {
 		content: $("#content").val(),
 		usersid: $("#id").val()
 	}
-	let id = $("#id").val();
 	$.ajax("/s/api/boards/write", {
 		type: "POST",
 		dataType: "json",
@@ -40,7 +40,6 @@ function save() {
 			"Content-Type": "application/json"
 		}
 	}).done((res) => {
-		console.log(res);
 		if (res.code == 1) {
 			alert("게시글 입력완료 ")
 			location.href = "/boards/" + id;
@@ -57,7 +56,6 @@ function update() {
 		title: $("#title").val(),
 		content: $("#content").val()
 	};
-	let id = $("#id").val();
 	$.ajax("/s/api/boards/" + id + "/update", {
 		type: "PUT",
 		dataType: "json",
@@ -78,7 +76,6 @@ function update() {
 }
 
 function deleteById() {
-	let id = $("#id").val();
 
 	let page = $("#page").val();
 	let keyword = $("#keyword").val();
@@ -89,7 +86,7 @@ function deleteById() {
 	}).done((res) => {
 		if (res.code == 1) {
 			//location.href = document.referrer;
-			location.href = "/?page=" + page + "&keyword=" + keyword;  //  /?page=?&keyword=?
+			location.href = "/?page=" + page + "&keyword=" + keyword;  
 		} else {
 			alert("글삭제 실패");
 		}
@@ -98,14 +95,12 @@ function deleteById() {
 
 
 function insertLove() {
-	let id = $("#id").val();
-
+	
 	$.ajax("/s/api/boards/" + id + "/loves", {
 		type: "POST",
 		dataType: "json"
 	}).done((res) => {
 		if (res.code == 1) {
-			console.log(res);
 			renderLoves();
 			let count = $("#countLove").text();
 			$("#countLove").text(Number(count) + 1);
@@ -124,7 +119,6 @@ function deleteLove() {
 		dataType: "json"
 	}).done((res) => {
 		if (res.code == 1) {
-			console.log(res);
 			renderCancelLoves();
 			let count = $("#countLove").text();
 			$("#countLove").text(Number(count) - 1);

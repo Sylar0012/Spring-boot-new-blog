@@ -15,7 +15,7 @@ public class DetailDto {
 	private Integer id;
 	private String title;
 	private String content;
-	private String usersId;
+	private Integer usersId;
 	private Timestamp createdAt;
 	private Integer lovesId;
 	private Integer loveCount;

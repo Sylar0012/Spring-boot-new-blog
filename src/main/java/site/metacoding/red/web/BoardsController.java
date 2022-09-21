@@ -23,6 +23,7 @@ import site.metacoding.red.domain.boards.Boards;
 import site.metacoding.red.domain.boards.BoardsDao;
 import site.metacoding.red.domain.loves.Loves;
 import site.metacoding.red.domain.users.Users;
+import site.metacoding.red.handler.ex.MyException;
 import site.metacoding.red.service.BoardsService;
 import site.metacoding.red.service.UsersService;
 import site.metacoding.red.web.dto.request.boards.UpdateDto;
@@ -82,7 +83,6 @@ public class BoardsController {
 	public String getBoardsUpdate(@PathVariable Integer id, Model model) {
 		Boards boardsPS = boardsService.게시글수정화면데이터가져오기(id);
 		model.addAttribute(boardsPS);
-
 		return "/boards/updateForm";
 	}
 	 

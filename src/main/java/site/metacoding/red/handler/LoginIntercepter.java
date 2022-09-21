@@ -19,10 +19,6 @@ public class LoginIntercepter implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("================");
-		System.out.println("URI : " +request.getRequestURI());
-		System.out.println("URL : " +request.getRequestURL());
-		System.out.println("================");
 
 		String uri = request.getRequestURI();
 
@@ -30,8 +26,7 @@ public class LoginIntercepter implements HandlerInterceptor {
 		Users principal = (Users) session.getAttribute("principal");
 		if (principal == null) {
 			if (uri.contains("api")) {
-				System.out.println("===========");
-				System.out.println("API 가 주소에 있음");
+
 				response.setContentType("application/json; charset=utf-8");
 				PrintWriter out = response.getWriter();
 				CMRespDto<?> cmRespDto = new CMRespDto<>(-1, "인증이 필요합니다", null);
@@ -39,8 +34,7 @@ public class LoginIntercepter implements HandlerInterceptor {
 				String json = om.writeValueAsString(cmRespDto);
 				out.println(json);
 			} else {
-				System.out.println("===========");
-				System.out.println("API 가 주소에 없음");
+
 				response.sendRedirect("/loginForm");
 			}
 			return false;

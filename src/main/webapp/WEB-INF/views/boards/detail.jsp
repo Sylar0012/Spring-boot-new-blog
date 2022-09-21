@@ -9,7 +9,7 @@
 <div class="container">
 	<br /> <br /> <input id="id" type="hidden" value="${detailDto.id}" />
 	<input id="lovesId" type="hidden" value="${detailDto.lovesId}" />
-	<c:if test="${!empty sessionScope.principal}">
+	<c:if test="${sessionScope.principal.id == detailDto.usersId}">
 		<div class="d-flex">
 			<a href="/s/boards/${detailDto.id}/updateForm"
 				class="btn btn-warning">수정하러가기</a>
